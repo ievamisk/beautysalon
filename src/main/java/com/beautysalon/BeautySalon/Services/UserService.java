@@ -24,6 +24,7 @@ public class  UserService{
         return userRepository.findByEmail(email);
     }
 
+
     public void saveUser(User user) {
         Pattern pattern = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(user.getPassword());

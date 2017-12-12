@@ -1,6 +1,5 @@
 app.service('registerService', function($http) {
-    this.sendRequest = function(firstName, lastName, email, phoneNumber, password, callback) {
-        // fucker
+    this.sendRequest = function(firstName, lastName, email, phoneNumber, password, confirmationToken, callback) {
         var request = {
             url: '/register/',
             method: 'POST',
@@ -10,7 +9,8 @@ app.service('registerService', function($http) {
                 email: email,
                 phone_number: phoneNumber,
                 password: password,
-                role_id: 1 // default role: user
+                role_id: 1, // default role: user
+                confirmation_token: confirmationToken
             }
 
         };

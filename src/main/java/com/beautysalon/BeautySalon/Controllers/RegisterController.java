@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+
+
+
 @RestController
 @RequestMapping(value = "/register")
 public class RegisterController {
@@ -31,30 +34,19 @@ public class RegisterController {
             @RequestParam(name = "email") String email,
             @RequestParam(name = "password") String password,
             @RequestParam(name = "phone_number") int phoneNumber,
-            @RequestParam(name = "role_id") long role_id
+            @RequestParam(name = "role_id") long role_id,
+            @RequestParam(name = "confirmation_token") String confirmationToken
     ){
         Role role = roleRepository.findOne(role_id);
-        User user = new User(firstName, lastName, email, password, phoneNumber);
-        user.setRole(role);
-        userService.saveUser(user);
+        User user = new User(firstName, lastName, email, password, phoneNumber, confirmationToken);
+        User userExists = userService.findUserByEmail(user.getEmail());
 
-//        try{
-//            User userExists = userService.findByEmail(user.getEmail());
-////        System.out.println(userExists);
-//
-//            if (userExists != null) {
-//                System.out.println("User with this email already exists");
-//
-//            }
-//            else {
-//                userRepository.save(user);
-//                System.out.println("User successfully added");
-//
-//            }
-//        }
-//        catch (Exception ex) {
-//            System.out.println(ex);
-//        }
+
+            user.setRole(role);
+            user.setConfirmationToken(UUID.randomUUID().toString());
+            System.out.println(UUID.randomUUID().toString());
+            userService.saveUser(user);
+
         return user;
     }
 }
