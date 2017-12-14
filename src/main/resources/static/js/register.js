@@ -12,7 +12,6 @@ app.service('registerService', function($http) {
                 role_id: 1, // default role: user
                 confirmation_token: confirmationToken
             }
-
         };
 
         $http(request).then(function (response) {

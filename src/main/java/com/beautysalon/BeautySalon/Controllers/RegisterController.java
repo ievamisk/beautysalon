@@ -41,11 +41,10 @@ public class RegisterController {
         User user = new User(firstName, lastName, email, password, phoneNumber, confirmationToken);
         User userExists = userService.findUserByEmail(user.getEmail());
 
-
-            user.setRole(role);
-            user.setConfirmationToken(UUID.randomUUID().toString());
-            System.out.println(UUID.randomUUID().toString());
-            userService.saveUser(user);
+        user.setRole(role);
+        user.setConfirmationToken(UUID.randomUUID().toString());
+        System.out.println(UUID.randomUUID().toString());
+        userService.saveUser(user);
 
         return user;
     }
