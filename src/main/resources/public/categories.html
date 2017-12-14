@@ -1,46 +1,120 @@
-<div>
-    <div id="accordion" role="tablist">
+<div class="container">
+    <h3 class="text-center">Categories & Subcategories</h3>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categoryModal">
+        Add Category
+    </button>
+    <div>
         <div class="card">
-            <div class="card-header" role="tab" id="headingOne">
-                <h5 class="mb-0">
-                    <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Collapsible Group Item #1
-                    </a>
-                </h5>
-            </div>
+            <div class="card-header border-bottom-0 table-header" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="collapse">
+                Nails
+                <button type="button" class="btn btn-danger float-right btn-sm table-button">Delete</button>
+                <button type="button" class="btn btn-primary float-right btn-sm table-button" data-toggle="modal" data-target="#editModal">Edit</button>
+                <button type="button" class="btn btn-success float-right btn-sm table-button" data-toggle="modal" data-target="#subcategoryModal">Add Subcategory</button>
 
-            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header" role="tab" id="headingTwo">
-                <h5 class="mb-0">
-                    <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Collapsible Group Item #2
-                    </a>
-                </h5>
-            </div>
-            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-                <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                </div>
+
+        </div>
+        <div id="collapse" class="collapse">
+            <div class="card panel-body">
+                <table class="table">
+                    <tr>
+                        <td>
+                            <span class="label">Manicure</span>
+                            <button type="button" class="btn btn-danger float-right btn-sm table-button">Delete</button>
+                            <button type="button" class="btn btn-primary float-right btn-sm table-button" data-toggle="modal" data-target="#editModal">Edit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="label">Gel</span>
+                            <button type="button" class="btn btn-danger float-right btn-sm table-button">Delete</button>
+                            <button type="button" class="btn btn-primary float-right btn-sm table-button" data-toggle="modal" data-target="#editModal">Edit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="label">Gel removing</span>
+                            <button type="button" class="btn btn-danger float-right btn-sm table-button">Delete</button>
+                            <button type="button" class="btn btn-primary float-right btn-sm table-button" data-toggle="modal" data-target="#editModal">Edit</button>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header" role="tab" id="headingThree">
-                <h5 class="mb-0">
-                    <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Collapsible Group Item #3
-                    </a>
-                </h5>
+    </div>
+</div>
+
+<!--MODALS-->
+
+<div class="modal fade " id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-shadow"></div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="categoryModalLabel">New Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-                <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                </div>
+            <div class="modal-body">
+                <label for="category-name" class="col-form-label">Category name:</label>
+                <input type="text" class="form-control" id="category-name">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade " id="subcategoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-shadow"></div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="subcategoryModalLabel">New Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label class="col-form-label">Choose category:</label>
+                <select class="form-control">
+                    <option>1 select</option>
+                    <option>2 select</option>
+                    <option>3 select</option>
+                </select>
+
+                <label for="subcategory-name" class="col-form-label">Subcategory name:</label>
+                <input type="text" class="form-control" id="subcategory-name">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade " id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-shadow"></div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="new-name" class="col-form-label">New name:</label>
+                <input type="text" class="form-control" id="new-name">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
             </div>
         </div>
     </div>
