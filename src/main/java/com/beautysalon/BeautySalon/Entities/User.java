@@ -8,12 +8,14 @@ public class User {
     public User(){
 
     }
-    public User(String firstName, String lastName, String email, String password, int phone_number ){
+
+    public User(String firstName, String lastName, String email, String password, int phone_number, String confirmationToken ){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.phone_number = phone_number;
+        this.confirmationToken = confirmationToken;
     }
 
 
@@ -52,7 +54,7 @@ public class User {
         this.lastName = lastName;
     }
 
-    @Column(name = "email", columnDefinition = "varchar(100)", nullable = false)
+    @Column(name = "email", columnDefinition = "varchar(100)", nullable = false, unique = true)
     private String email;
 
     public String getEmail() {
@@ -74,7 +76,7 @@ public class User {
         this.password = password;
     }
 
-    @Column(name = "phone_number", columnDefinition = "int", nullable = false)
+    @Column(name = "phone_number", columnDefinition = "int", nullable = false, unique = true)
     private int phone_number;
 
     public int getPhone_number() {
@@ -83,6 +85,17 @@ public class User {
 
     public void setPhone_number(int phone_number) {
         this.phone_number = phone_number;
+    }
+
+    @Column(name = "confirmation_token", columnDefinition = "varchar(100)", nullable = false, unique = true)
+    private String confirmationToken;
+
+    public String getConfirmationToken() {
+        return confirmationToken;
+    }
+
+    public void setConfirmationToken(String confirmationToken) {
+        this.confirmationToken = confirmationToken;
     }
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -103,4 +116,6 @@ public class User {
     public List<Bookings> getBookings() {
         return bookings;
     }
+
+
 }
