@@ -16,9 +16,11 @@
                         <input ng-change="onChange($event)" type="email" class="form-control" ng-model="email" id="email" placeholder="Enter Email">
                     </div>
                     <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <span class="input-group-addon" id="basic-addon1">+370</span>
-                        <input ng-change="onChange($event)" type="text" class="form-control" ng-model="phone" id="phone" placeholder="Phone Number" aria-describedby="basic-addon1">
+                    <label for="phone">Phone Number</label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">+370</span>
+                            <input ng-change="onChange($event)" type="text" class="form-control" ng-model="phone" id="phone" placeholder="Phone Number" aria-describedby="basic-addon1">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
