@@ -1,47 +1,144 @@
-<div>
-    <div id="accordion" role="tablist">
+<div class="container" ng-controller="categoryController" ng-init="onInit()">
+    <h3 class="text-center">Categories & Subcategories</h3>
+    <button type="button" class="btn btn-primary" id="add-category" data-toggle="modal" data-target="#categoryModal">
+        Add Category
+    </button>
+    <div ng-if="categories.length > 0" ng-repeat="category in categories">
         <div class="card">
-            <div class="card-header" role="tab" id="headingOne">
-                <h5 class="mb-0">
-                    <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Collapsible Group Item #1
-                    </a>
-                </h5>
+            <div class="card-header border-bottom-0 table-header" data-toggle="collapse" data-target="#{{category.id}}" aria-expanded="false" aria-controls="collapse">
+                {{category.category}}
+                <button ng-click="deleteCategory($event)" type="button" class="btn btn-danger float-right btn-sm table-button" data-category="{{category.id}}">Delete</button>
+                <button ng-click="setupEditCategory(category.id)" type="button" class="btn btn-primary float-right btn-sm table-button" data-toggle="modal"  data-category="{{category.id}}"  data-role="button" data-target="#editCategoryModal">Edit</button>
+                <button ng-controller="subcategoryController" ng-click="setupSubcategory(category.id)" type="button" class="btn btn-success float-right btn-sm table-button" data-toggle="modal" data-category="{{category.id}}" data-target="#subcategoryModal">Add Subcategory</button>
             </div>
 
-            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+        <div class="empty-collapse"></div>
+
+        <div id="{{category.id}}" class="collapse" >
+            <div class="card panel-body">
+                <table class="table">
+                    <tr ng-if="category.subcategories.length > 0" ng-repeat="subcategory in category.subcategories">
+                        <td>
+                            <span class="label">{{subcategory.subcategory}}</span>
+                            <button ng-controller="subcategoryController" ng-click="deleteSubcategory($event)" data-subcategory="{{subcategory.id}}" type="button" class="btn btn-danger float-right btn-sm table-button">Delete</button>
+                            <button ng-controller="subcategoryController" ng-click="setupEditSubcategory(subcategory.id)" type="button" class="btn btn-primary float-right btn-sm table-button" data-toggle="modal" data-target="#editSubcategoryModal">Edit</button>
+                        </td>
+                    </tr>
+                    <tr ng-if="category.subcategories == 0">
+                        <td>
+                            <span class="label">No subcategories yet.</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div ng-if="categories.length == 0" class="card">
+        <div class="card-header">No categories yet.</div>
+    </div>
+<!--MODALS-->
+
+    <!--CATEGORY-->
+
+    <div class="modal fade " id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-shadow"></div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalLabel">New Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="category-name" class="col-form-label">Category name:</label>
+                    <input ng-model="category" type="text" class="form-control" id="category-name">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button ng-click="addNewCategory($event)" type="button" class="btn btn-primary" data-dismiss="modal">Add</button>
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header" role="tab" id="headingTwo">
-                <h5 class="mb-0">
-                    <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Collapsible Group Item #2
-                    </a>
-                </h5>
-            </div>
-            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-                <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+    </div>
+
+
+    <div class="modal fade " id="editCategoryModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-shadow"></div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCategoryModalLabel">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="newCategoryName" class="col-form-label">New name:</label>
+                    <input ng-model="editCategoryName" type="text" class="form-control" id="newCategoryName">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button ng-click="editCategory()" type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header" role="tab" id="headingThree">
-                <h5 class="mb-0">
-                    <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Collapsible Group Item #3
-                    </a>
-                </h5>
+    </div>
+
+    <!--SUBCATEGORY-->
+
+    <div ng-controller="subcategoryController" class="modal fade " id="subcategoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-shadow"></div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="subcategoryModalLabel">New Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="subcategory-name" class="col-form-label">Subcategory name:</label>
+                    <input ng-model="subcategoryName" type="text" class="form-control" id="subcategory-name">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button ng-click="addNewSubcategory()" type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                </div>
             </div>
-            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-                <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+    </div>
+
+
+    <div ng-controller="subcategoryController" class="modal fade " id="editSubcategoryModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-shadow"></div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editSubcategoryModalLabel">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="newSubcategoryName" class="col-form-label">New subcategory name:</label>
+                    <input ng-model="subcategoryName" type="text" class="form-control" id="newSubcategoryName">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button ng-click="editSubcategory()" type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+
+//    $('.card-header .btn').click(function (e) {
+//        e.stopPropagation();
+//    });
+
+
+</script>

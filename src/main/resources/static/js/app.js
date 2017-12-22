@@ -12,9 +12,9 @@ app.config(function($routeProvider) {
         .when('/home',{
             templateUrl : "home.html",
         })
-        // .when('/categories', {
-        //         templateUrl : "sideNavbar.html"
-        // });
+        .when('/categories', {
+            templateUrl: "categories.html"
+        })
 });
 // app.run(['$rootScope','$cookieStore','$http', function ($rootScope,$cookieStore,$http) {
 //
@@ -24,4 +24,3 @@ app.config(function($routeProvider) {
 //     }
 //
 // }]);
-

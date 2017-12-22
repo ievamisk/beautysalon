@@ -34,15 +34,13 @@ public class RegisterController {
             @RequestParam(name = "email") String email,
             @RequestParam(name = "password") String password,
             @RequestParam(name = "phone_number") int phoneNumber,
-            @RequestParam(name = "role_id") long role_id,
-            @RequestParam(name = "confirmation_token") String confirmationToken
+            @RequestParam(name = "role_id") long role_id
     ){
         Role role = roleRepository.findOne(role_id);
-        User user = new User(firstName, lastName, email, password, phoneNumber, confirmationToken);
+        User user = new User(firstName, lastName, email, password, phoneNumber);
         User userExists = userService.findUserByEmail(user.getEmail());
 
         user.setRole(role);
-        user.setConfirmationToken(UUID.randomUUID().toString());
         System.out.println(UUID.randomUUID().toString());
         userService.saveUser(user);
 
