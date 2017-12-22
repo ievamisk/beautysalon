@@ -27,7 +27,7 @@ public class UserRestController {
     }
 
     @PreAuthorize("ROLE_ADMIN")
-    @RequestMapping(value = "/users/{id", method = RequestMethod.GET)
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     public ResponseEntity<User> userById(@PathVariable long id){
         User user = userRepository.findOne(id);
         if(user == null){

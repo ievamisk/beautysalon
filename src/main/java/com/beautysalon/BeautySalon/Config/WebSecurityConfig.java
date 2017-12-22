@@ -15,13 +15,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/**","/js/**","/index.html","/login","/register");
+        web.ignoring().antMatchers("/**","/static/**","/js/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().and().authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS,"/register.html").permitAll()
+        http.httpBasic().and()
+                .authorizeRequests()
                 .anyRequest()
                 .fullyAuthenticated().and()
                 .addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class)
