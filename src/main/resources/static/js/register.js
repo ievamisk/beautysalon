@@ -1,5 +1,5 @@
 app.service('registerService', function($http) {
-    this.sendRequest = function(firstName, lastName, email, phoneNumber, password, confirmationToken, callback) {
+    this.sendRequest = function(firstName, lastName, email, phoneNumber, password, callback) {
         var request = {
             url: '/register/',
             method: 'POST',
@@ -9,16 +9,13 @@ app.service('registerService', function($http) {
                 email: email,
                 phone_number: phoneNumber,
                 password: password,
-                role_id: 1, // default role: user
-                confirmation_token: confirmationToken
+                role_id: 1 // default role: user
             }
         };
 
         $http(request).then(function (response) {
-            console.log('success', response);
             callback(response);
         }, function(error) {
-            console.log('error', error);
             callback(error);
         })
     }
@@ -31,7 +28,6 @@ app.controller('registerController', function ($scope, registerService) {
     $scope.phone = '';
     $scope.password = '';
     $scope.confirmPassword = '';
-
     $scope.filled = false;
 
     $scope.onChange = function (e) {

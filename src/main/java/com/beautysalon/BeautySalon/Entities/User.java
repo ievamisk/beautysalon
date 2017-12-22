@@ -9,13 +9,12 @@ public class User {
 
     }
 
-    public User(String firstName, String lastName, String email, String password, int phone_number, String confirmationToken ){
+    public User(String firstName, String lastName, String email, String password, int phone_number ){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.phone_number = phone_number;
-        this.confirmationToken = confirmationToken;
     }
 
 
@@ -85,17 +84,6 @@ public class User {
 
     public void setPhone_number(int phone_number) {
         this.phone_number = phone_number;
-    }
-
-    @Column(name = "confirmation_token", columnDefinition = "varchar(100)", nullable = false, unique = true)
-    private String confirmationToken;
-
-    public String getConfirmationToken() {
-        return confirmationToken;
-    }
-
-    public void setConfirmationToken(String confirmationToken) {
-        this.confirmationToken = confirmationToken;
     }
 
     @ManyToOne(cascade = CascadeType.ALL)

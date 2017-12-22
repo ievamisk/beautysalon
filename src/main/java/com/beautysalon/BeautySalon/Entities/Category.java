@@ -1,5 +1,7 @@
 package com.beautysalon.BeautySalon.Entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    public long id;
 
     @Column(name="category", columnDefinition="varchar(100)", nullable = false)
     private String category;
@@ -29,9 +31,9 @@ public class Category {
         this.category = category;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "category")
+    @JsonManagedReference
     private List<Subcategory> subcategories;
-
     public List<Subcategory> getSubcategories() {
         return subcategories;
     }
