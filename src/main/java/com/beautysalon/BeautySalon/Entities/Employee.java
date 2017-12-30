@@ -23,10 +23,10 @@ public class Employee {
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
-    private List<EmployeeProcedure> employeeProcedures;
+    private List<BeautyProcedure> beautyProcedures;
 
-    public List<EmployeeProcedure> getEmployeeProcedures() {
-        return employeeProcedures;
+    public List<BeautyProcedure> getBeautyProcedures() {
+        return beautyProcedures;
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
