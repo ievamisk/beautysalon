@@ -100,6 +100,5 @@ app.controller('categoryController', function ($scope, categoryService) {
             console.log("updated", response);
             categoryService.getListRequest();
         })
-
     }
 });

@@ -1,0 +1,10 @@
+package com.beautysalon.BeautySalon.Repositories;
+
+import com.beautysalon.BeautySalon.Entities.BeautyProcedure;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface BeautyProcedureRepository extends CrudRepository<BeautyProcedure, Long> {
+    BeautyProcedure findById(long id);
+}

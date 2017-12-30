@@ -1,42 +1,46 @@
 package com.beautysalon.BeautySalon.Entities;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.List;
 
 @Entity
+@Table(name="beauty_procedure")
 public class BeautyProcedure {
 
-    public BeautyProcedure(String name, Date duration) {
-        this.name = name;
+    public BeautyProcedure(){
+
+    }
+
+    public BeautyProcedure(double price, int duration, Subcategory subcategoryId) {
+        this.price = price;
         this.duration = duration;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
-    @Column(name = "name", columnDefinition = "varchar(100)", nullable = false)
-    private String name;
+    @Column(name = "price", columnDefinition = "double", nullable = false)
+    private double price;
 
-    public String getName() {
-        return name;
+    public double getPrice() {
+        return price;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    @Column(name = "duration", columnDefinition = "date", nullable = false)
-    private Date duration;
+    @Column(name = "duration", columnDefinition = "int", nullable = false)
+    private int duration;
 
-    public Date getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(Date duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
-
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "subcategory_id")
@@ -48,6 +52,25 @@ public class BeautyProcedure {
 
     public void setSubcategory(Subcategory subcategory) {
         this.subcategory = subcategory;
+    }
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="employee_id")
+    private Employee employee;
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beautyProcedure")
+    private List<Bookings> bookings;
+
+    public List<Bookings> getBookings() {
+        return bookings;
     }
 }
 

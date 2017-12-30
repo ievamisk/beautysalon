@@ -15,4 +15,7 @@ app.config(function($routeProvider) {
         .when('/categories', {
             templateUrl: "categories.html"
         })
+        .when('/procedures', {
+            templateUrl: "procedures.html"
+        })
 });

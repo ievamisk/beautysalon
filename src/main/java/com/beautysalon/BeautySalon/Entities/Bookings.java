@@ -19,8 +19,8 @@ public class Bookings {
     private User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "employee_procedure_id")
-    private EmployeeProcedure employeeProcedure;
+    @JoinColumn(name = "beauty_procedure_id")
+    private BeautyProcedure beautyProcedure;
 
     @Column(name = "start_time", columnDefinition = "date", nullable = false)
     private Date startTime;
