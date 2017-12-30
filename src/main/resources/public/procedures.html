@@ -1,0 +1,36 @@
+<div class="container" ng-controller="" ng-init="onInit()">
+    <h3 class="text-center">Procedures</h3>
+
+    <div ng-if="procedures.length > 0" ng-repeat="procedure in procedures">
+        <div class="card">
+            <div class="card-header border-bottom-0 table-header" data-toggle="collapse" data-target="#{{procedure.id}}" aria-expanded="false" aria-controls="collapse">
+                {{procedure.category}}
+            </div>
+
+        </div>
+        <div class="empty-collapse"></div>
+
+        <div id="{{category.id}}" class="collapse" >
+            <div class="card panel-body">
+                <table class="table">
+                    <tr ng-if="category.subcategories.length > 0" ng-repeat="subcategory in category.subcategories">
+                        <td>
+                            <span class="label">{{subcategory.subcategory}}</span>
+                        </td>
+                    </tr>
+                    <tr ng-if="category.subcategories == 0">
+                        <td>
+                            <span class="label">No subcategories yet.</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div ng-if="categories.length == 0" class="card">
+        <div class="card-header">No categories yet.</div>
+    </div>
+    <!--MODALS-->
+
+    <!--CATEGORY-->
+</div>
