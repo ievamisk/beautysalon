@@ -9,6 +9,12 @@ public class Employee {
 
     }
 
+    public Employee(String name, String lastName,  String description) {
+        this.name = name;
+        this.lastName =lastName;
+        this.description = description;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
