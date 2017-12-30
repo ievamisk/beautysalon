@@ -15,7 +15,4 @@ app.config(function($routeProvider) {
         .when('/categories', {
             templateUrl: "categories.html"
         })
-        // .when('/categories', {
-        //         templateUrl : "sideNavbar.html"
-        // });
 });
