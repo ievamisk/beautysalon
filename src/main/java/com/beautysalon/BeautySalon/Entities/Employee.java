@@ -1,4 +1,6 @@
 package com.beautysalon.BeautySalon.Entities;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -6,15 +8,20 @@ import java.util.List;
 public class Employee {
 
     public Employee(){
+    }
 
+    public Employee(String firstName, String lastName, String description){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.description = description;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
-    @Column(name = "name", columnDefinition = "varchar(100)", nullable = false)
-    private String name;
+    @Column(name = "first_name", columnDefinition = "varchar(100)", nullable = false)
+    private String firstName;
 
     @Column(name = "last_name", columnDefinition = "varchar(100)", nullable = false)
     private String lastName;
@@ -23,8 +30,8 @@ public class Employee {
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+    @JsonManagedReference
     private List<BeautyProcedure> beautyProcedures;
-
     public List<BeautyProcedure> getBeautyProcedures() {
         return beautyProcedures;
     }
