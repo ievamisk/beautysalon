@@ -49,11 +49,11 @@ public class Employee {
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
-    @JsonManagedReference
-    private List<EmployeeProcedure> employeeProcedures;
+//    @JsonManagedReference
+    private List<BeautyProcedure> beautyProcedures;
 
-    public List<EmployeeProcedure> getEmployeeProcedures() {
-        return employeeProcedures;
+    public List<BeautyProcedure> getBeautyProcedures() {
+        return beautyProcedures;
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")

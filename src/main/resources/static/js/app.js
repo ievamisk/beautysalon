@@ -15,7 +15,10 @@ app.config(function($routeProvider) {
         .when('/categories', {
             templateUrl: "categories.html"
         })
-        .when('/employee',{
+        .when('/employee', {
             templateUrl: "employees.html"
+        })
+        .when('/procedures', {
+            templateUrl: "procedures.html"
         })
 });
