@@ -29,20 +29,16 @@ app.controller('LoginController', ['$http','$scope','LoginService','AuthService'
 
     $scope.login = function () {
         LoginService.sendRequest($scope.email, $scope.password, function (response) {
-            console.log("esu cia");
             $scope.password=null;
             if(response.data.token){
-                console.log("I am in response.token");
                 $scope.token = response.data.token;
                 $scope.message ='';
                 $http.defaults.headers.common['Authorization'] = 'Bearer' + response.data.token;
                 AuthService.user = response.data.user;
                 $rootScope.$broadcast('LoginSuccessful');
-                $scope.message ='ESU CIA';
                 $location.path('/home');
 
             }else {
-                console.log("I am in else");
                 $scope.message='Authetication Failed !';
             }
         })
