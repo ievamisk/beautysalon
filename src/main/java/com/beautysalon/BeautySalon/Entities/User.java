@@ -17,9 +17,19 @@ public class User {
         this.phone_number = phone_number;
     }
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     @Column(name = "first_name", columnDefinition = "varchar(30)", nullable = false)
     private String firstName;

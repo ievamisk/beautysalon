@@ -1,0 +1,73 @@
+<div class="container" ng-controller="employeesController" ng-init="onInit()">
+    <h3 class="text-center">Employees</h3>
+    <button type="button" class="btn btn-primary" id="add-employee" data-toggle="modal" data-target="#employeeModal"> Add Employee</button>
+    <div ng-if="employees.length > 0" ng-repeat="employee in employees">
+        <div class="card">
+            <div class="card-header border-bottom-0 table-header" data-toggle="collapse" data-target="#{{employee.id}}" aria-expanded="false" aria-controls="collapse">
+                {{employee.firstName}} {{employee.lastName}}
+                <button ng-click="deleteEmployee($event)" type="button" class="btn btn-danger float-right btn-sm table-button" data-category="{{employee.id}}">Delete</button>
+                <button ng-click="setupEditEmployee(employee.id)" type="button" class="btn btn-primary float-right btn-sm table-button" data-toggle="modal" data-category="{{employee.id}}" data-role="button" data-target="#editEmployeeModal">Edit</button>
+            </div>
+        </div>
+    </div>
+    <div ng-if="employees.length == 0" class="card">
+        <div class="card-header">No categories yet.</div>
+    </div>
+
+
+
+    <!--Modals-->
+    <!--Employees-->
+    <div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-labelledby="employeeModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-shadow"></div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="employeeModalLabel">New employee</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="employeeName" class="col-form-label">Employee first name</label>
+                    <input ng-model="firstName" type="text" class="form-control" id="employeeName">
+                    <label for="employeeLastName" class="col-form-label">Employee last name</label>
+                    <input ng-model="lastName" type="text" class="form-control" id="employeeLastName">
+                    <label for="employeeDescription" class="col-form-label">Employee description</label>
+                    <textarea ng-model="description" type="textarea" class="form-control" id="employeeDescription"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button ng-click="addNewEmployee($event)" type="button" class="btn btn-primary" data-dismiss="modal">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-shadow"></div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEmployeeModalLabel">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="newEmployeeName" class="col-form-label">Employee First name</label>
+                    <input ng-model="editEmployeeFirstName" type="text" class="form-control" id="newEmployeeName">
+                    <label for="newEmployeeLastName" class="col-form-label">Employee last name</label>
+                    <input ng-model="editEmployeeLastName" type="text" class="form-control" id="newEmployeeLastName">
+                    <label for="newEmployeeDescription" class="col-form-label">Employee description</label>
+                    <textarea ng-model="editEmployeeDescription" type="textarea" class="form-control" id="newEmployeeDescription"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button ng-click="editEmployee()" type="button" class="btn btn-primary" data-dismiss="modal">Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

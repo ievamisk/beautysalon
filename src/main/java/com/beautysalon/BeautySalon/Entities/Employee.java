@@ -18,16 +18,35 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    public long id;
 
     @Column(name = "first_name", columnDefinition = "varchar(100)", nullable = false)
     private String firstName;
 
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     @Column(name = "last_name", columnDefinition = "varchar(100)", nullable = false)
     private String lastName;
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     @Column(name = "description", columnDefinition = "varchar(300)", nullable = false)
     private String description;
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
     @JsonManagedReference
@@ -37,6 +56,7 @@ public class Employee {
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonManagedReference
     private List<Bookings> bookings;
 
     public List<Bookings> getBookings() {

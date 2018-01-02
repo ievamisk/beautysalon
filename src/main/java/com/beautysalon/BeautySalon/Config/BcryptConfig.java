@@ -1,4 +1,4 @@
-package com.beautysalon.BeautySalon;
+package com.beautysalon.BeautySalon.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,5 +13,6 @@ public class BcryptConfig extends WebMvcConfigurerAdapter {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder;
     }
+
 
 }
