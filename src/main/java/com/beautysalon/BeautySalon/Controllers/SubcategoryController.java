@@ -42,7 +42,7 @@ public class SubcategoryController {
 
     @RequestMapping(value="/{id}", method = RequestMethod.PUT)
     public Subcategory updateSubcategory(@PathVariable(value = "id") long id,
-                                  @RequestParam(value = "subcategory") String subcategory) {
+                                         @RequestParam(value = "subcategory") String subcategory) {
         Subcategory updatedSubcategory = subcategoryRepository.findById(id);
         updatedSubcategory.setSubcategory(subcategory);
         subcategoryRepository.save(updatedSubcategory);

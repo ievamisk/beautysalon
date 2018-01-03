@@ -33,7 +33,8 @@
         <!--upper menu block-->
         <div w3-include-html="navbar.html"></div>
         <!--side menu block-->
-        <div ng-controller = "NavController" ng-show="user.role.name == 'ROLE_ADMIN'" w3-include-html="sidenav.html"></div>
+        <!--<div ng-controller = "NavController" ng-show="user.role.name == 'ROLE_ADMIN'" w3-include-html="sidenav.html"></div>-->
+        <div ng-controller = "NavController" w3-include-html="sidenav.html"></div>
         <script>
             w3.includeHTML();
         </script>

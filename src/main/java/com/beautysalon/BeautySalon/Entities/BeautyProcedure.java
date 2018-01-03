@@ -1,5 +1,7 @@
 package com.beautysalon.BeautySalon.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -7,13 +9,13 @@ import java.util.List;
 @Table(name="beauty_procedure")
 public class BeautyProcedure {
 
-    public BeautyProcedure(){
+    public BeautyProcedure(){}
 
-    }
-
-    public BeautyProcedure(double price, int duration, Subcategory subcategoryId) {
+    public BeautyProcedure(double price, int duration, Subcategory subcategory, Employee employee) {
         this.price = price;
         this.duration = duration;
+        this.subcategory = subcategory;
+        this.employee = employee;
     }
 
     @Id
@@ -56,6 +58,7 @@ public class BeautyProcedure {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="employee_id")
+    @JsonBackReference
     private Employee employee;
 
     public Employee getEmployee() {

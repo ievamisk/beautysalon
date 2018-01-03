@@ -22,10 +22,10 @@ public class EmployeeController {
     public @ResponseBody
     @RequestMapping(value="/add", method = RequestMethod.POST, produces = "application/json")
     Employee newEmployee (
-            @RequestParam (value = "name") String name,
+            @RequestParam (value = "first_name") String firstName,
             @RequestParam (value = "last_name") String lastName,
             @RequestParam (value = "description") String description) {
-        Employee newEmployee = new Employee(name,lastName,description);
+        Employee newEmployee = new Employee(firstName,lastName,description);
         employeeRepository.save(newEmployee);
         return newEmployee;
     }
@@ -38,11 +38,11 @@ public class EmployeeController {
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public @ResponseBody Employee editEmployee(
             @PathVariable(value = "id") long id,
-            @RequestParam(value = "name") String name,
+            @RequestParam(value = "first_name") String firstName,
             @RequestParam(value = "last_name") String lastName,
             @RequestParam(value = "description") String description){
         Employee updateEmployee = employeeRepository.findById(id);
-        updateEmployee.setName(name);
+        updateEmployee.setFirstName(firstName);;
         updateEmployee.setLastName(lastName);
         updateEmployee.setDescription(description);
         employeeRepository.save(updateEmployee);

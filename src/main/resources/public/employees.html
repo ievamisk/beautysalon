@@ -4,15 +4,15 @@
     <div ng-if="employees.length > 0" ng-repeat="employee in employees">
         <div class="card">
             <div class="card-header border-bottom-0 table-header" data-toggle="collapse" data-target="#{{employee.id}}" aria-expanded="false" aria-controls="collapse">
-                {{employee.name}} {{employee.lastName}}
+                {{employee.firstName}} {{employee.lastName}}
                 <button ng-click="deleteEmployee($event)" type="button" class="btn btn-danger float-right btn-sm table-button" data-category="{{employee.id}}">Delete</button>
-                <button ng-click="setupEditEmployee(employee.id,employee.name,employee.lastName,employee.description)" type="button" class="btn btn-primary float-right btn-sm table-button" data-toggle="modal" data-category="{{employee.id}}" data-role="button" data-target="#editEmployeeModal" data-firstName="{{employee.name}}">Edit</button>
+                <button ng-click="setupEditEmployee(employee.id,employee.firstName,employee.lastName,employee.description)" type="button" class="btn btn-primary float-right btn-sm table-button" data-toggle="modal" data-category="{{employee.id}}" data-role="button" data-target="#editEmployeeModal">Edit</button>
             </div>
         </div>
 
         <div id="{{employee.id}}" class="collapse">
             <div class="card-block border" id="employeeDescriptionBlock" >
-                <h6 class="card-title">About {{employee.name}}</h6>
+                <h6 class="card-title">About {{employee.firstName}}</h6>
                 <p class="card-text">{{employee.description}}</p>
             </div>
         </div>
@@ -35,7 +35,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="employeeName" class="col-form-label">Employee name</label>
-                        <input ng-model="name" type="text" class="form-control" id="employeeName">
+                        <input ng-model="firstName" type="text" class="form-control" id="employeeName">
                     </div>
                     <div class="form-group">
                         <label for="employeeLastName" class="col-form-label">Employee last name</label>

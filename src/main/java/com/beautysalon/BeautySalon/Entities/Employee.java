@@ -8,12 +8,11 @@ import java.util.List;
 public class Employee {
 
     public Employee(){
-
     }
 
-    public Employee(String name, String lastName,  String description) {
-        this.name = name;
-        this.lastName =lastName;
+    public Employee(String firstName, String lastName, String description){
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.description = description;
     }
 
@@ -21,13 +20,14 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
-    @Column(name = "name", columnDefinition = "varchar(100)", nullable = false)
-    private String name;
-    public String getName() {
-        return name;
+    @Column(name = "first_name", columnDefinition = "varchar(100)", nullable = false)
+    private String firstName;
+
+    public String getFirstName() {
+        return firstName;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     @Column(name = "last_name", columnDefinition = "varchar(100)", nullable = false)
@@ -49,9 +49,8 @@ public class Employee {
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
-//    @JsonManagedReference
+    @JsonManagedReference
     private List<BeautyProcedure> beautyProcedures;
-
     public List<BeautyProcedure> getBeautyProcedures() {
         return beautyProcedures;
     }

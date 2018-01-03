@@ -16,12 +16,12 @@ app.service('employeesService', function ($http) {
         })
     };
 
-    this.addNewEmployee = function (name,lastName,description,callback) {
+    this.addNewEmployee = function (firstName,lastName,description,callback) {
         var request = {
             url: '/employee/add',
             method : 'POST',
             params : {
-                name : name,
+                first_name : firstName,
                 last_name : lastName,
                 description : description
             }
@@ -45,12 +45,12 @@ app.service('employeesService', function ($http) {
         })
     };
 
-    this.editEmployee = function (id, name, lastName, description, callback) {
+    this.editEmployee = function (id, firstName, lastName, description, callback) {
         var request = {
             url : '/employee/'+id,
             method: 'PUT',
             params :{
-                name: name,
+                first_name: firstName,
                 last_name: lastName,
                 description: description
             }
@@ -69,7 +69,7 @@ app.controller('employeesController',function ($scope,employeesService) {
 
     // variables for edit function
     $scope.editEmployeeId="";
-    $scope.editEmployeeName="LOPAS";
+    $scope.editEmployeeFirstName="";
     $scope.editEmployeeLastName="";
     $scope.editEmployeeDescription="";
 
@@ -83,8 +83,8 @@ app.controller('employeesController',function ($scope,employeesService) {
     };
 
     $scope.addNewEmployee = function () {
-        if($scope.name !=="" && $scope.lastName!=="" && $scope.description!==""){
-            employeesService.addNewEmployee($scope.name, $scope.lastName, $scope.description, function (response) {
+        if($scope.firstName !=="" && $scope.lastName!=="" && $scope.description!==""){
+            employeesService.addNewEmployee($scope.firstName, $scope.lastName, $scope.description, function (response) {
                 console.log("Response from employee controller", response);
                 $scope.service.getListRequest();
             })
@@ -107,7 +107,8 @@ app.controller('employeesController',function ($scope,employeesService) {
     };
     
     $scope.editEmployee = function () {
-        employeesService.editEmployee($scope.editEmployeeId, $scope.editEmployeeName,$scope.editEmployeeLastName, $scope.editEmployeeDescription,
+        console.log($scope.editEmployeeId, $scope.editEmployeeFirstName,$scope.editEmployeeLastName, $scope.editEmployeeDescription)
+        employeesService.editEmployee($scope.editEmployeeId, $scope.editEmployeeFirstName,$scope.editEmployeeLastName, $scope.editEmployeeDescription,
             function (response) {
             employeesService.getListRequest();
         })
