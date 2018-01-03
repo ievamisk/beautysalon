@@ -69,7 +69,7 @@ app.controller('employeesController',function ($scope,employeesService) {
 
     // variables for edit function
     $scope.editEmployeeId="";
-    $scope.editEmployeeName="";
+    $scope.editEmployeeName="LOPAS";
     $scope.editEmployeeLastName="";
     $scope.editEmployeeDescription="";
 
@@ -99,14 +99,16 @@ app.controller('employeesController',function ($scope,employeesService) {
         });
     };
 
-    $scope.setupEditEmployee = function (id) {
+    $scope.setupEditEmployee = function (id, firstName,lastName, description) {
         $scope.editEmployeeId=id;
+        $scope.editEmployeeName=firstName;
+        $scope.editEmployeeLastName=lastName;
+        $scope.editEmployeeDescription=description;
     };
     
     $scope.editEmployee = function () {
         employeesService.editEmployee($scope.editEmployeeId, $scope.editEmployeeName,$scope.editEmployeeLastName, $scope.editEmployeeDescription,
             function (response) {
-            console.log('edited', response);
             employeesService.getListRequest();
         })
     }
