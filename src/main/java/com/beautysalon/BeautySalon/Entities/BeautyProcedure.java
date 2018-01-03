@@ -20,7 +20,7 @@ public class BeautyProcedure {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    public long id;
 
     @Column(name = "price", columnDefinition = "double", nullable = false)
     private double price;
@@ -44,7 +44,7 @@ public class BeautyProcedure {
         this.duration = duration;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "subcategory_id")
     private Subcategory subcategory;
 
@@ -56,7 +56,7 @@ public class BeautyProcedure {
         this.subcategory = subcategory;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="employee_id")
     @JsonBackReference
     private Employee employee;

@@ -34,10 +34,10 @@ public class BeautyProceduresController {
         return newProcedure;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    List<BeautyProcedure> getProcedures(){
-        return (List<BeautyProcedure>) beautyProcedureRepository.findAll();
+    List<BeautyProcedure> getProcedures(@PathVariable(value = "id") long id){
+        return beautyProcedureRepository.findAllByEmployeeId(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -49,14 +49,10 @@ public class BeautyProceduresController {
     @RequestMapping(value="/{id}", method = RequestMethod.PUT)
     public BeautyProcedure updateProcedure(@PathVariable(value = "id") long id,
                                            @RequestParam(value = "price") double price,
-                                           @RequestParam(value = "duration") int duration,
-                                           @RequestParam(value = "subcategory_id") long subcategoryId,
-                                           @RequestParam(value = "employee_id") long employeeId) {
+                                           @RequestParam(value = "duration") int duration) {
         BeautyProcedure updatedProcedure = beautyProcedureRepository.findById(id);
         updatedProcedure.setPrice(price);
         updatedProcedure.setDuration(duration);
-        updatedProcedure.setSubcategory(subcategoryRepository.findById(subcategoryId));
-        updatedProcedure.setEmployee(employeeRepository.findById(employeeId));
         beautyProcedureRepository.save(updatedProcedure);
         return updatedProcedure;
     }

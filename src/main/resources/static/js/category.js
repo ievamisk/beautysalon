@@ -61,7 +61,6 @@ app.service('categoryService', function ($http) {
 app.controller('categoryController', function ($scope, categoryService) {
     $scope.categories = [];
     $scope.service = categoryService;
-
     $scope.editCategoryId = '';
     $scope.editCategoryName = '';
 
