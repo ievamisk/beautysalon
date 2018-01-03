@@ -1,26 +1,29 @@
 app.service('proceduresService', function ($http) {
     this.procedures = [];
+    this.editProcedureId = '';
 
-    this.getAllProcedures = function () {
+    this.getEmployeeProcedures = function (employeeId, callback) {
         var self = this;
         var request = {
-            url: '/procedures/',
+            url: '/procedures/employee/' + employeeId,
             method: 'GET'
         };
         $http(request).then(function (response) {
-            self.procedures = response.data;
+            callback(response.data);
         }, function(error) {
             console.log('error', error);
+            callback([]);
         })
     };
 
-    this.addProcedure = function (price, duration, subcategoryId, callback) {
+    this.addProcedure = function (price, duration, employeeId, subcategoryId, callback) {
         var request = {
             url: '/procedures/add',
             method: 'POST',
             params: {
                 price: price,
                 duration: duration,
+                employee_id: employeeId,
                 subcategory_id: subcategoryId
             }
         };
@@ -32,7 +35,6 @@ app.service('proceduresService', function ($http) {
     };
 
     this.deleteProcedure = function (procedureId, callback) {
-        console.log(procedure);
         var request = {
             url: '/procedures/'+ procedureId,
             method: 'DELETE'
@@ -44,14 +46,13 @@ app.service('proceduresService', function ($http) {
         })
     };
 
-    this.editProcedure = function (procedureId, price, duration, subcategoryId, callback) {
+    this.editProcedure = function (procedureId, price, duration, callback) {
         var request = {
-            url: '/procedures/'+ subcategoryId,
+            url: '/procedures/'+ procedureId,
             method: 'PUT',
             params: {
                 price: price,
-                duration: duration,
-                subcategory_id: subcategoryId
+                duration: duration
             }
 
         };
@@ -63,36 +64,76 @@ app.service('proceduresService', function ($http) {
     }
 });
 
-app.controller('proceduresController', function ($scope, proceduresService, subcategoryService) {
-    $scope.subcategories = [];
-    $scope.service = subcategoryService;
-    $scope.categoryId = '';
-    $scope.subcategoryId = '';
-    $scope.subcategoryName = '';
+app.controller('proceduresController', function ($scope, proceduresService, categoryService, employeesService) {
+    $scope.procedures = [];
+    $scope.categories = [];
+    $scope.service = proceduresService;
+    $scope.cService = categoryService;
+    $scope.eService = employeesService;
+    $scope.procedureId = '';
+    $scope.employeeId = '';
+    $scope.editProcedurePrice = '';
+    $scope.editProcedureDuration = '';
+    $scope.editProcedureId = '';
+    $scope.procedure = '';
 
-    $scope.addNewProcedure = function () {
-        console.log($scope.categoryId, $scope.subcategoryName);
+    $scope.$watch('service.editProcedureId', function (newVal) {
+       $scope.editProcedureId = newVal;
+    });
 
-        subcategoryService.addNewProcedure($scope.subcategoryName, $scope.categoryId, function (response) {
-            console.log('from subcategory controller', response);
-            categoryService.getListRequest();
-        });
+    $scope.$watch('cService.categories', function(newVal) {
+        $scope.categories = newVal;
+    });
+
+    $scope.$watch('service.procedures',function (newVal) {
+        $scope.procedures = newVal;
+    });
+
+    $scope.$watch('eService.procedures', function (newVal) {
+        $scope.procedures = newVal;
+    });
+
+    $scope.categoriesInit = function() {
+        categoryService.getListRequest();
     };
 
-    $scope.deleteSubcategory = function (event) {
-        var id = event.target.getAttribute('data-subcategory');
-        subcategoryService.deleteSubcategory(id, function (response) {
+    $scope.addProcedure = function () {
+        console.log($scope.procedure);
+        if($scope.price !=="" && $scope.duration!=="" && $scope.employeeId!==""  && $scope.procedure!=="") {
+            proceduresService.addProcedure($scope.price, $scope.duration, $scope.employeeId, $scope.procedure, function (response) {
+                $scope.eService.getListRequest();
+            });
+        }
+    };
+
+    $scope.deleteProcedure = function (event) {
+        var id = event.target.getAttribute('data-procedure');
+        proceduresService.deleteProcedure(id, function (response) {
             console.log("deleted", response);
-            categoryService.getListRequest();
         });
     };
 
-    $scope.editSubcategory = function () {
-        console.log($scope.subcategoryId, $scope.subcategoryName);
-        subcategoryService.editSubcategory($scope.subcategoryId, $scope.subcategoryName, function (response) {
-            console.log($scope.subcategoryName, $scope.subcategoryId);
+    $scope.setupEditProcedure = function (id) {
+        $scope.editProcedureId = id;
+        $scope.service.editProcedureId = id;
+        console.log($scope.editProcedureId,id);
+    };
+
+    $scope.editProcedure = function () {
+        console.log($scope.editProcedureId);
+        proceduresService.editProcedure($scope.editProcedureId, $scope.editProcedurePrice, $scope.editProcedureDuration, function (response) {
             console.log("updated", response);
-            categoryService.getListRequest();
+            $scope.eService.getListRequest();
+
         })
+    };
+
+    $scope.getEmployeeProcedures = function (employeeId) {
+        $scope.employeeId = employeeId;
+        proceduresService.getEmployeeProcedures(employeeId, function (data) {
+            console.log(data);
+            $scope.procedures = data;
+        });
+
     }
 });

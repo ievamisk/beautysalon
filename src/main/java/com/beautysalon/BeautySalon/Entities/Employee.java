@@ -48,7 +48,7 @@ public class Employee {
         this.description = description;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
     @JsonManagedReference
     private List<BeautyProcedure> beautyProcedures;
     public List<BeautyProcedure> getBeautyProcedures() {

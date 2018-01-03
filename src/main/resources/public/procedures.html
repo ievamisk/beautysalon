@@ -1,36 +1,128 @@
-<div class="container" ng-controller="" ng-init="onInit()">
-    <h3 class="text-center">Procedures</h3>
-
-    <div ng-if="procedures.length > 0" ng-repeat="procedure in procedures">
+<div class="container" ng-controller="employeesController" ng-init="onInit()">
+    <h3 class="text-center">Employee Procedures</h3>
+    <button type="button" class="btn btn-primary add-button" data-toggle="modal" data-target="#addProcedureModal">
+        Add Employee Procedure
+    </button>
+    <div ng-if="employees.length > 0" ng-repeat="employee in employees">
         <div class="card">
-            <div class="card-header border-bottom-0 table-header" data-toggle="collapse" data-target="#{{procedure.id}}" aria-expanded="false" aria-controls="collapse">
-                {{procedure.id}}
+            <div class="card-header border-bottom-0 table-header" data-toggle="collapse" data-target="#{{employee.id}}" aria-expanded="false" aria-controls="collapse">
+                {{employee.firstName + " " + employee.lastName}}
             </div>
-
         </div>
-        <div class="empty-collapse"></div>
+        <!--<div class="empty-collapse"></div>-->
 
-        <!--<div id="{{procedure.id}}" class="collapse" >-->
-            <!--<div class="card panel-body">-->
-                <!--<table class="table">-->
-                    <!--<tr ng-if="procedure.length > 0" ng-repeat="procedure in procedures">-->
-                        <!--<td>-->
-                            <!--<span class="label">{{subcategory.subcategory}}</span>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--<tr ng-if="category.subcategories == 0">-->
-                        <!--<td>-->
-                            <!--<span class="label">No subcategories yet.</span>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                <!--</table>-->
-            <!--</div>-->
-        <!--</div>-->
+        <div ng-controller="proceduresController" ng-init="getEmployeeProcedures(employee.id)" id="{{employee.id}}" class="collapse" >
+            <div class="card panel-body">
+                <table class="table">
+                    <tr ng-if="procedures.length > 0" ng-repeat="procedure in procedures">
+                        <td>
+                            <h6 class="label">{{procedure.subcategory.subcategory}}</h6>
+                            <span class="label"> Price: <b>{{procedure.price}} eur.</b> | Duration: <b>{{procedure.duration}} min.</b></span>
+                            <button ng-click="deleteProcedure($event)" data-procedure="{{procedure.id}}" type="button" class="btn btn-danger float-right btn-sm table-button">Delete</button>
+                            <button ng-click="setupEditProcedure(procedure.id)" type="button" class="btn btn-primary float-right btn-sm table-button" data-toggle="modal" data-target="#editProcedureModal">Edit</button>
+                        </td>
+                    </tr>
+                    <tr ng-if="procedures.length == 0">
+                        <td>
+                            <span class="label">No procedures yet.</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
-    <div ng-if="procedures.length == 0" class="card">
-        <div class="card-header">No categories yet.</div>
+    <div ng-if="employees.length == 0" class="card">
+        <div class="card-header">No employees yet.</div>
     </div>
-    <!--MODALS-->
 
-    <!--CATEGORY-->
+    <div ng-controller="proceduresController" class="modal fade" id="editProcedureModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-shadow"></div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProcedureModalLabel">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="newProcedurePrice" class="col-form-label">Price:</label>
+                            <div class="input-group">
+                                <input ng-model="editProcedurePrice" type="text" class="form-control" id="newProcedurePrice" aria-describedby="newTime">
+                                <span class="input-group-addon" id="newTrice">eur</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label for="newProcedureDuration" class="col-form-label">Duration:</label>
+                            <div class="input-group">
+                                <input ng-model="editProcedureDuration" type="text" class="form-control" id="newProcedureDuration" aria-describedby="newPrice">
+                                <span class="input-group-addon" id="newTime">min</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button ng-click="editProcedure()" type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="addProcedureModal" tabindex="-1" role="dialog" aria-labelledby="addProcedureModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-shadow"></div>
+        <div class="modal-dialog" role="document" ng-controller="proceduresController">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProcedureModalLabel">Add Employee Procedure</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="employee">Employee</label>
+                            <select class="form-control" id="employee" ng-model="employeeId">
+                                <option ng-repeat="employee in employees" value="{{ employee.id }}">{{employee.firstName}} {{employee.lastName}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" ng-init="categoriesInit()">
+                            <label for="procedure">Procedure</label>
+                            <select class="form-control" id="procedure" ng-model="procedure">
+                                <optgroup ng-repeat="category in categories" label="{{ category.category }}">
+                                    <option ng-repeat="subs in category.subcategories" value="{{subs.id}}">{{subs.subcategory}}</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="ProcedurePrice" class="col-form-label">Price:</label>
+                                <div class="input-group">
+                                    <input ng-model="price" type="text" class="form-control" id="ProcedurePrice" aria-describedby="price">
+                                    <span class="input-group-addon" id="price">eur</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                            <label for="ProcedureDuration" class="col-form-label">Duration:</label>
+                                <div class="input-group">
+                                    <input ng-model="duration" type="text" class="form-control" id="ProcedureDuration" aria-describedby="time">
+                                    <span class="input-group-addon" id="time">min</span>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button ng-click="addProcedure()" type="button" class="btn btn-primary" data-dismiss="modal">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
 </div>

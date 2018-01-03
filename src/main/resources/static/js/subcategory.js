@@ -3,6 +3,19 @@ app.service('subcategoryService', function ($http) {
     this.categoryId = '';
     this.subcategoryId = '';
 
+    this.getAllSubcategories = function () {
+        var self = this;
+        var request = {
+            url: '/subcategory/',
+            method: 'GET'
+        };
+        $http(request).then(function (response) {
+            self.subcategories = response.data;
+        }, function(error) {
+            console.log('error', error);
+        });
+    };
+
     this.addNewSubcategory = function (subcategory, categoryId, callback) {
         var request = {
             url: '/subcategory/add',
