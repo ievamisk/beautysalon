@@ -58,7 +58,6 @@ public class Employee {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonManagedReference
     private List<Bookings> bookings;
-
     public List<Bookings> getBookings() {
         return bookings;
     }

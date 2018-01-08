@@ -2,12 +2,14 @@ package com.beautysalon.BeautySalon.Controllers;
 
 import com.beautysalon.BeautySalon.Entities.BeautyProcedure;
 import com.beautysalon.BeautySalon.Entities.Employee;
+import com.beautysalon.BeautySalon.Entities.Subcategory;
 import com.beautysalon.BeautySalon.Repositories.BeautyProcedureRepository;
 import com.beautysalon.BeautySalon.Repositories.EmployeeRepository;
 import com.beautysalon.BeautySalon.Repositories.SubcategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,6 +40,21 @@ public class BeautyProceduresController {
     public @ResponseBody
     List<BeautyProcedure> getProcedures(@PathVariable(value = "id") long id){
         return beautyProcedureRepository.findAllByEmployeeId(id);
+    }
+
+    @RequestMapping(value = "/employee/procedure/{id}", method = RequestMethod.GET)
+    public @ResponseBody List<Employee> getEmployeesByProcedure(@PathVariable(value = "id") long id){
+        Subcategory sub = subcategoryRepository.findById(id);
+
+        List<BeautyProcedure> procedures = beautyProcedureRepository.findAllBySubcategory(sub);
+
+        List<Employee> emp = new ArrayList<Employee>();
+
+        for (BeautyProcedure procedure : procedures) {
+            emp.add(procedure.getEmployee());
+        }
+
+        return emp;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

@@ -58,7 +58,18 @@ app.service('categoryService', function ($http) {
     };
 });
 
-app.controller('categoryController', function ($scope, categoryService) {
+// service for booking part
+app.service('bookingService', function() {
+    this.procedureId = '';
+
+    this.setProcedure = function(val) {
+        console.log('From procedure', val);
+        this.procedureId = val;
+        console.log('From procedure 2 ', this.procedureId);
+    };
+});
+
+app.controller('categoryController', function ($scope, categoryService, bookingService) {
     $scope.categories = [];
     $scope.service = categoryService;
     $scope.editCategoryId = '';
@@ -70,6 +81,10 @@ app.controller('categoryController', function ($scope, categoryService) {
 
     $scope.onInit = function () {
         categoryService.getListRequest();
+    };
+
+    $scope.selectProcedure = function(id) {
+        bookingService.setProcedure(id);
     };
 
     $scope.addNewCategory = function () {

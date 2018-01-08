@@ -1,7 +1,8 @@
 package com.beautysalon.BeautySalon.Repositories;
 
+import com.beautysalon.BeautySalon.Entities.BeautyProcedure;
+import com.beautysalon.BeautySalon.Entities.Bookings;
 import com.beautysalon.BeautySalon.Entities.Employee;
-import jdk.nashorn.internal.objects.annotations.Where;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +11,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EmployeeRepository extends CrudRepository<Employee, Long> {
-    Employee findById(long id);
+public interface BookingsRepository extends CrudRepository<Bookings, Long> {
+    Bookings findById(long id);
 }
