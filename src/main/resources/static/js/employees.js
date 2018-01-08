@@ -9,8 +9,6 @@ app.service('employeesService', function ($http) {
         };
         $http(request).then(function (response) {
             self.employees = response.data;
-            console.log(response.data);
-
         }, function(error) {
             console.log('error', error);
         })
@@ -105,15 +103,12 @@ app.controller('employeesController',function ($scope,employeesService) {
         $scope.editEmployeeLastName=lastName;
         $scope.editEmployeeDescription=description;
     };
-    
+
     $scope.editEmployee = function () {
-        console.log($scope.editEmployeeId, $scope.editEmployeeFirstName,$scope.editEmployeeLastName, $scope.editEmployeeDescription)
+        console.log($scope.editEmployeeId, $scope.editEmployeeFirstName,$scope.editEmployeeLastName, $scope.editEmployeeDescription);
         employeesService.editEmployee($scope.editEmployeeId, $scope.editEmployeeFirstName,$scope.editEmployeeLastName, $scope.editEmployeeDescription,
             function (response) {
             employeesService.getListRequest();
         })
     }
-
-
-
 });

@@ -1,0 +1,53 @@
+.row{
+    padding-bottom: 20px;
+}
+#monthNav{
+    display:flex;
+    align-items:center;
+    text-align: left;
+}
+#monthNav > label{
+    padding-left: 0px;
+    text-align: right;
+}
+#monthNav > div{
+    padding: 0px !important;
+}
+#monthNav > div > input, #initialWorkingHour, #initialWorkingMinutes, #lunchHour, #lunchMinutes{
+    padding-right: 0px !important;
+}
+#searchSchedule{
+    margin-left: 15px !important;
+}
+#employeeSchedule{
+    text-align:right;
+}
+.scheduleLineCell{
+    align-items:center;
+    padding: 0px !important;
+    border: 1px solid;
+    text-align: center;
+}
+.firstColumn{
+    table-layout: fixed;
+    width: 100px;
+}
+.exceptFirstColumn{
+    table-layout: fixed;
+    width: 24px;
+}
+#employee-table-body{
+    padding: 0px;
+}
+.scheduleCell{
+    padding: 0px;
+    font-size: 10px;
+    margin-bottom: 0;
+    margin-top: 15px;
+}
+.startCell{
+    margin-top: 40px;
+}
+.workLunchDiv{
+    padding-bottom: 0px;
+}

@@ -1,0 +1,239 @@
+<div ng-controller="scheduleController as schedule" id="calendar" ng-init="scheduleOnInit">
+    <h3 class="text-center">Employee schedule</h3>
+    <div class="row justify-content-md-center" id="monthNav">
+        <label for="year" class="col-form-label col-md-1">Years:</label>
+        <div class="col-md-1">
+            <input ng-model="year" type="number" value="{{date| date:'yyyy'}}" class="current form-control" min="1990" max="3000" id="year" onkeydown="return false">
+        </div>
+        <label for="month" class="col-form-label col-md-1">Month: </label>
+        <div class="col-md-1">
+            <input ng-model="month" type="number" value="{{date| date:'MM'}}" class="current form-control" min="1" max="12" id="month" onkeydown="return false">
+        </div>
+        <div class="col-md-2" id="searchSchedule">
+            <button type="button" class="btn btn-primary" ng-click="calendar()">Search</button>
+        </div>
+        <div class="dropdown col-md-2">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="scheduleManagement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Schedule management
+            </button>
+            <div class="dropdown-menu" aria-labelledby="scheduleManagement">
+                <a class="btn btn-primary dropdown-item" id="addScheduleDay" data-toggle="modal" data-target="#scheduleAddModal"> Add Employee</a>
+                <a class="btn btn-primary dropdown-item" id="editScheduleDay" data-toggle="modal"  data-target="#scheduleEditModal">Edit</a>
+                <a class="dropdown-item" href="#">Delete day</a>
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-10">
+            <div id="employeeSchedule">
+                <table class="table table-striped" ng-controller="employeesController">
+                    <thead>
+                        <tr>
+                            <th id="table-first-cell" class="scheduleLineCell firstColumn">{{monthOfTheYearName}}</th>
+                            <th ng-repeat="day in monthDate" class="scheduleLineCell exceptFirstColumn">{{day.dayOfTheMonth}}</th>
+                        </tr>
+                        <tr>
+                            <th class="scheduleLineCell firstColumn" >Last Name</th>
+                            <th ng-repeat="day in monthDate " class="scheduleLineCell exceptFirstColumn" >{{day.dayOfTheWeek}}</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="employee in employees" ng-init="getEmployeeById(employee.id)">
+                        <td class="scheduleLineCell firstColumn">
+                            <p>{{employee.lastName}}</p>
+                            <p class="scheduleCell">Starts</p>
+                            <p class="scheduleCell">End</p>
+                            <p class="scheduleCell">Lunch</p>
+                        </td>
+                        <td ng-repeat="day in monthDate" class="scheduleLineCell exceptFirstColumn">
+                            <div class="scheduleCell" ng-repeat="schedule in scheduleData">
+                                <div  ng-if="employee.id == schedule.employeeId &&
+                                day.dayOfTheMonth == schedule.day && month == schedule.month && year == schedule.year" class="true">
+                                    <p class="card-text startCell" ng-model="full">{{schedule.startHour}}:{{schedule.startMinutes}}</p>
+                                    <p class="card-text ">{{schedule.endHours}}:{{schedule.endMinutes}}</p>
+                                    <p class="card-text ">{{schedule.lunchBreak}}</p>
+                                </div>
+                                <!--<div ng-if="!!true">-->
+                                    <!--<p class="placeHolderCell">1</p>-->
+                                    <!--<p class="placeHolderCell"></p>-->
+                                    <!--<p class="placeHolderCell"></p>-->
+                                <!--</div>-->
+                            </div>
+
+                        </td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div>
+        {{schedules}}
+    </div>
+    <div class="row" ng-repeat="schedule in schedules"></div>
+
+    <!--Modal-->
+    <!--scheduel-->
+    <!--Add modal-->
+    <div class="modal fade" id="scheduleAddModal" tabindex="-1" role="dialog" aria-labelledby="scheduleAddModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-shadow"></div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Add work day</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </button>
+                </div>
+                <div ng-controller="employeesController" class="modal-body">
+                    <div ng-init="onInit()">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" >
+                                    <label for="employeeList" class="col-form-label">Choose employee: </label>
+                                    <select ng-model="$parent.employeeId" class="form-control" id="employeeList" >
+                                        <option ng-repeat="employee in employees" value="{{employee.id}}">{{employee.firstName}} {{employee.lastName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" >
+                                    <label for="businessDay" class="col-form-label">Select day of the month:</label>
+                                    <input ng-model="$parent.businessDay" type="number" value="1" class="current form-control" min="1" max="{{daysInTheMonth()}}" id="businessDay" onkeydown="return false">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-md-6 workLunchDiv">
+                            <label for="initialWorkingHour" class="col-form-label">Work starts at hours: </label>
+                        </div>
+                        <div class="row" >
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input ng-model="$parent.initialWorkingHour" id="initialWorkingHour" class="current form-control" type="number" min="10" max="19" onkeydown="return false" aria-describedby="hour">
+                                    <span class="input-group-addon" id="hour">h.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6" >
+                                <div class="input-group">
+                                    <input ng-model="$parent.initialWorkingMinutes" id="initialWorkingMinutes" class="current form-control" type="number" step="30" min="00" max="30" onkeydown="return false" aria-describedby="minutes">
+                                    <span class="input-group-addon" id="minutes">min.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-md-6 workLunchDiv">
+                            <label for="lunchHour" class="col-form-label">Lunch break starts at: </label>
+                        </div>
+                        <div class="row ">
+                            <div class="input-group col-md-6" >
+                                <input ng-model="$parent.lunchHour" id="lunchHour" class="current form-control" type="number" min="10" max="19" onkeydown="return false" aria-describedby="lHour">
+                                <span class="input-group-addon" id="lHours">h.</span>
+                            </div>
+                            <div class="input-group col-md-6" >
+                                <input ng-model="$parent.lunchMinutes" id="lunchMinutes" class="current form-control" type="number" step="30" min="00" max="30" aria-describedby="lMinutes">
+                                <span class="input-group-addon" id="lMinutes">min.</span>
+                            </div>
+                        </div>
+                        <div class="row col-md-6 workLunchDiv">
+                            <label for="lunchHour" class="col-form-label">Business hours: </label>
+                        </div>
+                        <div class="row ">
+                            <div class="input-group col-md-6" >
+                                <input ng-model="$parent.businessHours" id="businessHours" class="current form-control" type="number" min="4" max="8" onkeydown="return false" aria-describedby="bHours">
+                                <span class="input-group-addon" id="bHours">h.</span>
+                            </div>
+                            <div class="input-group col-md-6" >
+                                <input ng-model="$parent.businessMinutes" id="businessMinutes" class="current form-control" type="number" step="30" min="00" max="30" aria-describedby="bMinutes">
+                                <span class="input-group-addon" id="bMinutes">min.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button ng-click="addNewBusinessDay()" type="button" class="btn btn-primary" data-dismiss="modal">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Edit Modal-->
+    <!--<div class="modal fade" id="scheduleEditModal" tabindex="-1" role="dialog" aria-labelledby="scheduleEditModal" aria-hidden="true" data-backdrop="false">-->
+        <!--<div class="modal-shadow"></div>-->
+        <!--<div class="modal-dialog" role="document">-->
+            <!--<div class="modal-content">-->
+                <!--<div class="modal-header">-->
+                    <!--<h5>Edit work day</h5>-->
+                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                        <!--<span aria-hidden="true">x</span>-->
+                    <!--</button>-->
+                <!--</div>-->
+                <!--<div ng-controller="employeesController" class="modal-body">-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-6">-->
+                            <!--<div class="form-group" >-->
+                                <!--<label for="editEmployeeList" class="col-form-label">Choose employee: </label>-->
+                                <!--<select ng-model="$parent.employeeId" class="form-control" id="editEmployeeList" ng-change="getEmployeeById(employeeId)">-->
+                                    <!--<option ng-repeat="employee in employees" value="{{employee.id}}">{{employee.firstName}} {{employee.lastName}}</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-6">-->
+                            <!--<div class="form-group">-->
+                                <!--<label for="employeeBusinessDayList" class="col-form-label">Choose date: </label>-->
+                                <!--<select ng-model="$parent.businessDay" class="form-control" id="employeeBusinessDayList">-->
+                                    <!--<option ng-repeat="schedule in schedules"  value="{{schedule.id}}">{{schedule.workdayStart}}</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="row col-md-6 workLunchDiv">-->
+                        <!--<label for="editWorkingHour" class="col-form-label">Work starts at hours: </label>-->
+                    <!--</div>-->
+                    <!--<div class="row" >-->
+                        <!--<div class="col-md-6">-->
+                            <!--<div class="input-group">-->
+                                <!--<input ng-model="$parent.initialWorkingHour" id="editWorkingHour" class="current form-control" type="number" min="10" max="19" onkeydown="return false" aria-describedby="editHour">-->
+                                <!--<span class="input-group-addon" id="editHour">h.</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-6" >-->
+                            <!--<div class="input-group">-->
+                                <!--<input ng-model="$parent.initialWorkingMinutes" id="editWorkingMinutes" class="current form-control" type="number" step="30" min="00" max="30" onkeydown="return false" aria-describedby="editMinutes">-->
+                                <!--<span class="input-group-addon" id="editMinutes">min.</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="row col-md-6 workLunchDiv">-->
+                        <!--<label for="editLunchHours" class="col-form-label">Lunch break starts at: </label>-->
+                    <!--</div>-->
+                    <!--<div class="row ">-->
+                        <!--<div class="input-group col-md-6" >-->
+                            <!--<input ng-model="$parent.lunchHour" id="editLunchHours" class="current form-control" type="number" min="10" max="19" onkeydown="return false" aria-describedby="eLHours">-->
+                            <!--<span class="input-group-addon" id="eLHours">h.</span>-->
+                        <!--</div>-->
+                        <!--<div class="input-group col-md-6" >-->
+                            <!--<input ng-model="$parent.lunchMinutes" id="EditLunchMinutes" class="current form-control" type="number" step="30" min="00" max="30" aria-describedby="eLMinutes">-->
+                            <!--<span class="input-group-addon" id="eLMinutes">min.</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="row col-md-6 workLunchDiv">-->
+                        <!--<label for="lunchHour" class="col-form-label">Business hours: </label>-->
+                    <!--</div>-->
+                    <!--<div class="row ">-->
+                        <!--<div class="input-group col-md-6" >-->
+                            <!--<input ng-model="$parent.businessHours" id="EditBusinessHours" class="current form-control" type="number" min="4" max="8" onkeydown="return false" aria-describedby="eBHours">-->
+                            <!--<span class="input-group-addon" id="eBHours">h.</span>-->
+                        <!--</div>-->
+                        <!--<div class="input-group col-md-6" >-->
+                            <!--<input ng-model="$parent.businessMinutes" id="editBusinessMinutes" class="current form-control" type="number" step="30" min="00" max="30" aria-describedby="eBMinutes">-->
+                            <!--<span class="input-group-addon" id="eBMinutes">min.</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                    <!--<button ng-click="editBusinessDay()" type="button" class="btn btn-primary" data-dismiss="modal">Add</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>
