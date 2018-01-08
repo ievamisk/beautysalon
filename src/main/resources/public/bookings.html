@@ -1,0 +1,100 @@
+<div class="container" ng-controller="categoryController" ng-init="onInit()">
+    <h3 class="text-center title">Procedures</h3>
+    <div ng-if="categories.length > 0" ng-repeat="category in categories">
+        <div class="card">
+            <div class="card-header border-bottom-0 table-header" data-toggle="collapse" data-target="#{{category.id}}" aria-expanded="false" aria-controls="collapse">
+                {{category.category}}
+            </div>
+        </div>
+        <div class="empty-collapse"></div>
+
+        <div id="{{category.id}}" class="collapse" >
+            <div class="card panel-body">
+                <table class="table">
+                    <tr class="hover" ng-if="category.subcategories.length > 0" ng-repeat="subcategory in category.subcategories">
+                        <td id="{{subcategory.id}}" ng-click="selectProcedure(subcategory.id)" data-toggle="modal" data-target="#bookingModal">
+                            <span class="label">{{subcategory.subcategory}}
+                                <span class="float-right price">10.00€</span>
+                                <span class="float-right arrow">nuo</span>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr ng-if="category.subcategories == 0">
+                        <td>
+                            <span class="label">No subcategories yet.</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div ng-if="categories.length == 0" class="card">
+        <div class="card-header">No categories yet.</div>
+    </div>
+
+    <div class="modal fade " id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-shadow"></div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" ng-controller="bookingsController">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalLabel">Book a procedure</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <!--<div class="alert alert-success" role="alert">-->
+                        <!--<strong>Well done!</strong> You successfully booked a procedure.-->
+                    <!--</div>-->
+                    <p class="text-center">{{ subCategoryName }}</p>
+                    <hr>
+                    <div class="form-group">
+                        <label for="employee">Employee:</label>
+                        <select ng-model="employee" class="form-control" id="employee" ng-change="dataChanged()">
+                            <option ng-if="employees.length > 0" ng-repeat="employee in employees" value="{{ employee.id }}">{{employee.firstName}} {{employee.lastName}}</option>
+                            <option ng-if="employees.length == 0">No employees offering this procedure</option>
+
+                        </select>
+                    </div>
+
+                    <label for="date" class="col-form-label">Date:</label>
+                    <div class="date datepicker" data-provide="datepicker" >
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                            <input type="text" class="form-control" id="date" ng-model="date" ng-change="dataChanged()">
+                        </div>
+
+                    </div>
+
+                    <label for="time" class="col-form-label">Time:</label>
+                    <div class="list-group" id="time">
+                        <a ng-repeat="time in times" ng-click="selectTime(time)" class="list-group-item list-group-item-action" >{{ time }}</a>
+                    </div>
+
+                    <hr>
+                    <div class="text-right">
+                        <h6>Checkout</h6>
+                        <h3><span style="color:green;">147.00 €</span></h3>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button ng-click="addNewBooking($event)" type="button" class="btn btn-primary" data-dismiss="alert">Finish</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $('.datepicker').datepicker({
+        todayBtn: "linked",
+        orientation: "bottom left",
+        autoclose: true,
+        format: 'yyyy-mm-dd'
+    });
+</script>

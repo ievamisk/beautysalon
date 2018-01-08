@@ -1,35 +1,58 @@
 package com.beautysalon.BeautySalon.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Bookings {
 
-    public Bookings(Date startTime){
+    public Bookings(){
+
+    }
+
+    public Bookings(String startTime, BeautyProcedure procedureId, User userId){
+
         this.startTime = startTime;
+        this.beautyProcedure = procedureId;
+        this.user = userId;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
+
+    public User getUser() {
+        return user;
+    }
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "beauty_procedure_id")
+    @JsonBackReference
     private BeautyProcedure beautyProcedure;
 
-    @Column(name = "start_time", columnDefinition = "date", nullable = false)
-    private Date startTime;
+    public BeautyProcedure getBeautyProcedure() {
+        return beautyProcedure;
+    }
 
-    public Date getStartTime() {
+    @Column(name = "start_time", columnDefinition = "varchar(20)", nullable = false)
+    private String startTime;
+
+
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 }

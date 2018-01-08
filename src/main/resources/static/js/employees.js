@@ -1,5 +1,19 @@
 app.service('employeesService', function ($http) {
     this.employees = [];
+    this.procedureId = '';
+
+    this.getEmployeesByProcedure = function (subcategoryId) {
+        var self = this;
+        var request = {
+            url: '/employee/procedures/' + subcategoryId,
+            method: 'GET'
+        };
+        $http(request).then(function (response) {
+            self.employees = response.data;
+        }, function(error) {
+            console.log('error', error);
+        })
+    };
 
     this.getListRequest = function () {
         var self = this;
@@ -78,6 +92,10 @@ app.controller('employeesController',function ($scope,employeesService) {
 
     $scope.onInit = function () {
         employeesService.getListRequest();
+    };
+
+    $scope.getEmployeesByProcedure = function () {
+        employeesService.getEmployeesByProcedure(subcategoryId)
     };
 
     $scope.addNewEmployee = function () {

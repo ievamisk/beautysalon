@@ -3,6 +3,19 @@ app.service('subcategoryService', function ($http) {
     this.categoryId = '';
     this.subcategoryId = '';
 
+    this.getOneSubcategory = function (id, callback) {
+        var self = this;
+        var request = {
+            url: '/subcategory/' + id,
+            method: 'GET'
+        };
+        $http(request).then(function (response) {
+            callback(response.data);
+        }, function(error) {
+            console.log('error', error);
+        });
+    };
+
     this.getAllSubcategories = function () {
         var self = this;
         var request = {
@@ -115,5 +128,5 @@ app.controller('subcategoryController', function ($scope, subcategoryService, ca
             console.log("updated", response);
             categoryService.getListRequest();
         })
-    }
+    };
 });

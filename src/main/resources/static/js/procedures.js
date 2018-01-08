@@ -3,7 +3,6 @@ app.service('proceduresService', function ($http) {
     this.editProcedureId = '';
 
     this.getEmployeeProcedures = function (employeeId, callback) {
-        var self = this;
         var request = {
             url: '/procedures/employee/' + employeeId,
             method: 'GET'

@@ -34,6 +34,12 @@ public class SubcategoryController {
         return (List<Subcategory>) subcategoryRepository.findAll();
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    Subcategory getSubcategory(@PathVariable(value = "id") long id){
+        return subcategoryRepository.findById(id);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public @ResponseBody Subcategory deleteSubcategory(@PathVariable(value = "id") long id) {
         subcategoryRepository.delete(id);

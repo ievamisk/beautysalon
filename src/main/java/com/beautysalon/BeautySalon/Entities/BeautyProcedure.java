@@ -1,6 +1,7 @@
 package com.beautysalon.BeautySalon.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.List;
@@ -70,6 +71,8 @@ public class BeautyProcedure {
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "beautyProcedure")
+//    @JsonManagedReference
+
     private List<Bookings> bookings;
 
     public List<Bookings> getBookings() {

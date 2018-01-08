@@ -1,6 +1,8 @@
 package com.beautysalon.BeautySalon.Controllers;
+import com.beautysalon.BeautySalon.Entities.BeautyProcedure;
 import com.beautysalon.BeautySalon.Entities.Category;
 import com.beautysalon.BeautySalon.Entities.Employee;
+import com.beautysalon.BeautySalon.Repositories.BeautyProcedureRepository;
 import com.beautysalon.BeautySalon.Repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +16,18 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    BeautyProcedureRepository beautyProcedureRepository;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public @ResponseBody List<Employee> getEmployees(){
         return (List<Employee>) employeeRepository.findAll();
     }
 
+//    @RequestMapping(value = "/procedures/{id}", method = RequestMethod.GET)
+//    public @ResponseBody List<Employee> getEmployeesByProcedure(@PathVariable(value = "id") long id){
+//        return (employeeRepository.findByBeautyProceduresId(id));
+//    }
     public @ResponseBody
     @RequestMapping(value="/add", method = RequestMethod.POST, produces = "application/json")
     Employee newEmployee (
