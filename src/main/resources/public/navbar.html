@@ -7,8 +7,8 @@
         <div class="navbar-nav">
             <a ng-show = "!user.email" class="nav-item nav-link " href="#!register">Register<span class="sr-only">(current)</span></a>
             <a ng-show = "!user.email" class="nav-item nav-link " href="#!login">Login<span class="sr-only">(current)</span></a>
-            <a ng-show="user.role.name == 'ROLE_ADMIN'" class="nav-item nav-link " ng-click="logout()">Logout<span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link " href="#!booking">Book Procedure<span class="sr-only">(current)</span></a>
+            <a ng-show="!!user.email" class="nav-item nav-link " ng-click="logout()">Logout<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link " ng-show="!!user.email" href="#!booking">Book Procedure<span class="sr-only">(current)</span></a>
         </div>
     </div>
 </nav>

@@ -165,8 +165,8 @@ app.controller('scheduleController', function ($scope, scheduleService) {
        })
     };
 
-    $scope.editBusinessDay = function () {
-        console.log(console.log($scope.businessDay))
-    };
+    // $scope.editBusinessDay = function () {
+    //     console.log(console.log($scope.businessDay))
+    // };
 
 });
